@@ -1,0 +1,11 @@
+{
+  "name": "instagram-comment-dm-automation",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Instagram comment-to-DM automation workspace with FastAPI backend and Next.js frontend.",
+  "scripts": {
+    "frontend:dev": "npm --prefix frontend run dev",
+    "frontend:build": "npm --prefix frontend run build",
+    "frontend:start": "npm --prefix frontend run start"
+  }
+}
