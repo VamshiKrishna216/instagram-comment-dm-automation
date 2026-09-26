@@ -1,28 +1,62 @@
 # Instagram Comment-to-DM Automation
 
-Full-stack Instagram engagement automation for your GitHub repo, modeled after the reference project you shared.
+A full-stack automation platform that connects Instagram comment events to configurable public replies and direct-message workflows.
 
-This repo is now organized as:
+## Architecture
 
-- `backend/`: FastAPI service for webhook verification, comment event handling, reel/post config, and Instagram Graph API calls
-- `frontend/`: Next.js dashboard for viewing media and editing automation rules
+```text
+                    Instagram
+                        │
+                     Webhook
+                        │
+                        ▼
+              ┌──────────────────┐
+              │  FastAPI Backend  │
+              │                  │
+              │ webhook + rules  │
+              │ Graph API client │
+              └────────┬─────────┘
+                       │ REST
+                       ▼
+              ┌──────────────────┐
+              │  Next.js Dashboard│
+              │ media + automation│
+              │ configuration     │
+              └──────────────────┘
+```
 
 ## Features
 
-- Keyword-triggered DM automation for Instagram comments
+- Keyword-triggered comment-to-DM workflows
 - Public comment reply automation
-- Per-reel or per-post configuration stored in JSON
-- Lightweight admin dashboard
-- Ready for Railway + Vercel style deployment
+- Per-post / per-reel automation configuration
+- Instagram Graph API integration
+- Webhook verification and event handling
+- Next.js administration dashboard
+- FastAPI backend
+- Environment-based configuration
+
+## Stack
+
+**Frontend:** Next.js 14, React, TypeScript, Tailwind CSS
+
+**Backend:** Python, FastAPI, Uvicorn, Requests
+
+**Integration:** Instagram Graph API, webhooks
 
 ## Project structure
 
 ```text
 backend/
-  routers/
-  services/
+├── routers/
+├── services/
+└── main.py
+
 frontend/
-  app/
+└── app/
+
+.env.example
+reels_config.json
 ```
 
 ## Local setup
@@ -41,31 +75,29 @@ uvicorn main:app --reload
 ```bash
 cd frontend
 npm install
-cp .env.local.example .env.local
 npm run dev
 ```
 
-## Required environment variables
+### Environment
 
-### Backend
+Configure the required values in the environment files. **Never commit real access tokens or secrets.**
 
-- `VERIFY_TOKEN`
-- `INSTAGRAM_ACCESS_TOKEN`
-- `IG_BUSINESS_ACCOUNT_ID`
-- `GRAPH_API_VERSION` (optional, defaults to `v20.0`)
-- `CONFIG_FILE` (optional, defaults to `reels_config.json`)
+## Deployment
 
-### Frontend
+The application can be split into independently deployed frontend and backend services, for example:
 
-- `NEXT_PUBLIC_API_URL`
+- Frontend → Vercel or another Next.js host
+- Backend → Railway or another Python host
 
-## Deploy
+## Engineering focus
 
-- Deploy `backend/` to Railway or any Python host
-- Deploy `frontend/` to Vercel
-- Point your Meta webhook callback to `/webhook`
+This project demonstrates event-driven API integration, backend/frontend separation, external API authentication, configuration management, and automation workflows.
 
-## Notes
+## Roadmap
 
-- Existing legacy files from the old workspace scaffold were left untouched unless they conflicted with the new project metadata.
-- The new app follows the same overall pattern as the reference repo, with a few small cleanup improvements around configuration handling and error responses.
+- Database-backed configuration
+- Authentication and role-based access
+- Queue-based event processing
+- Retry and rate-limit handling
+- Automated tests
+- Observability and structured logging
